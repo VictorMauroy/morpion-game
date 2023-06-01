@@ -79,11 +79,15 @@ def Fill_Cell(line, column) -> None :
     cells_table[line-1][column-1] = "x" if isBoxTurn else "o"
     
     # Check if a line of box or circles has been created
-    if Check_Line_of_Symbols(line-1, column-1) :
+    if Check_Line_of_Symbols() :
         partyIsOver = True
         Show_Cells(cells_table)
         print("La victoire appartient au joueur CROIX !" if isBoxTurn 
               else "La victoire appartient au joueur CERCLE !")
+    elif currentTurn >= 9 :
+        partyIsOver = True
+        Show_Cells(cells_table)
+        print("Aucun gagnant sur cette partie")
     else :
         isBoxTurn = not isBoxTurn
         Show_Cells(cells_table)
@@ -144,6 +148,6 @@ print("Afin de jouer :\n"
 #Let's say box starts first everytime 
 # and it's up to the user to determine who play first
 
-while(not partyIsOver):
+while(not partyIsOver) :
     currentTurn+=1
     NextTurn()
