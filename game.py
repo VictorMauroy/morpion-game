@@ -21,14 +21,17 @@ def Show_Cells(cells:list) -> None :
                 print(character, end=" ")
         print()
 
-def Is_Position_Valid(pos_to_check:int, isLine:bool) -> None :
-    """_summary_
+def Is_Position_Valid(line:int, column:int) -> bool :
+    """Check if the given line or column is valid : empty or existing
 
-    Args:
-        pos_to_check (int): _description_
-        isLine (bool): _description_
+    Returns:
+        bool: True if the position is valid, False otherwise
     """
-    print()
+    if cells_table[line-1][column-1] != "" :
+        return False
+    else :
+        return True
+
 #endregion
 
 def Fill_Cell(line, column) -> None :
@@ -50,26 +53,35 @@ def Fill_Cell(line, column) -> None :
 def NextTurn() -> None:
     selectedLine:int
     selectedColumn:int
+    
     selectedLine = input("Quelle ligne ? ==> ")
     try:
         # Ne pas oublier d'assigner pour que selectedCell prenne un type "int"
         selectedLine = int(selectedLine)
-        #Do the other checks here
-        #Is_Position_Valid(selectedLine, True)
+        if(selectedLine < 1 or selectedLine > 3):
+            raise IndexError("You are out of range for our cells,"
+                         "remind to enter a number between 1 and 3.")
     except:
-        print("Ceci n'est pas une ligne valide.")
+        print("Ceci n'est pas un numéro de ligne valide.")
         NextTurn()
     
     selectedColumn = input("Quelle colonne ? ==> ")
     try:
         selectedColumn = int(selectedColumn)
-        #Is_Position_Valid(selectedColumn, False)
+        if(selectedColumn < 1 or selectedColumn > 3):
+            raise IndexError("You are out of range for our cells,"
+                         "remind to enter a number between 1 and 3.")
     except:
-        print("Ceci n'est pas une cellule valide.:\n"
+        print("Ceci n'est pas un numéro de colonne valide.")
+        NextTurn()
+    
+    if(Is_Position_Valid(selectedLine, selectedColumn)) :
+        # Once everything is good, continue !
+        Fill_Cell(selectedLine, selectedColumn)
+    else :
+        print("Cette case est déjà prise.\n"
               "Renseignez à nouveau ligne et colonne.")
         NextTurn()
-    # Once everything is good, continue !
-    Fill_Cell(selectedLine, selectedColumn)
 
 ############ Initialization of the game ############ 
 print("Afin de jouer :\n"
