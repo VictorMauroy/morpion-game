@@ -41,7 +41,7 @@ def NextTurn() -> None:
     
     selectedLine = input("Quelle ligne ? ==> ")
     try:
-        # Ne pas oublier d'assigner pour que selectedCell prenne un type "int"
+        # Do not forget to assign it, otherwise it will not take the int type
         selectedLine = int(selectedLine)
         if(selectedLine < 1 or selectedLine > 3):
             raise IndexError("You are out of range for our cells,"
@@ -72,7 +72,7 @@ def Fill_Cell(line, column) -> None :
     """Check  a box or make a circle in the table of cells with 
         a given line and column
     """
-    global selectedLine #Mettre en global pour pouvoir utiliser une variable extérieure
+    global selectedLine # Set to global to be able to use it here
     global isBoxTurn
     global partyIsOver
     
@@ -89,7 +89,7 @@ def Fill_Cell(line, column) -> None :
         Show_Cells(cells_table)
         print("Joueur CROIX, à vous !" if isBoxTurn else "Joueur CERCLE, let's go !")
 
-def Check_Line_of_Symbols(line:int, column:int) -> bool :
+def Check_Line_of_Symbols() -> bool :
     """Determine if a line of symbols exist by checking around
         the last given position
 
@@ -98,48 +98,40 @@ def Check_Line_of_Symbols(line:int, column:int) -> bool :
     """
     global isBoxTurn
     global currentTurn
-    if currentTurn < 5 : #Impossible de gagner avant le tour 5
+    if currentTurn < 5 : # Cannot win before turn 5
         return False
     symbolToCheck = "x" if isBoxTurn else "o"
 
     if(cells_table[1][1] == symbolToCheck) :
-        #Si la case du centre est prise, on vérifie les 4 possibilités qui l'entourent
-        if cells_table[0][0] == symbolToCheck :
-            # On vérifie la diagonale gauche > droite
+        # If the center cell is filled, we check the 4 possibilities which surrender it
+        if cells_table[0][0] == symbolToCheck : # Check diagonal line left > right
             if cells_table [2][2] == symbolToCheck :
                 return True
-        elif cells_table[0][2] == symbolToCheck :
-            # On vérifie la diagonale droite > gauche
+        elif cells_table[0][2] == symbolToCheck : # Check diagonal line right > left
             if cells_table[2][0] == symbolToCheck :
                 return True
-        elif cells_table[0][1] == symbolToCheck :
-            # On vérifie la ligne verticale
+        elif cells_table[0][1] == symbolToCheck : # Check the vertical line
             if cells_table[2][1] == symbolToCheck :
                 return True
-        elif cells_table[1][2] == symbolToCheck :
-            # On vérifie la ligne horizontale
+        elif cells_table[1][2] == symbolToCheck : # Check the horizontal line
              if cells_table[1][0] == symbolToCheck :
                 return True
              
     elif cells_table[0][0] == symbolToCheck :
-        #Si la case du coin haut gauche est prise, on vérifie 2 possibilités (sur 3)
-        if cells_table[1][0] == symbolToCheck :
-            # On vérifie la ligne verticale
+        #if the cell at the top left is filled, we check 2 possibilities
+        if cells_table[1][0] == symbolToCheck : # Check the vertical line
             if cells_table[2][0] == symbolToCheck :
                 return True
-        elif cells_table[0][1] == symbolToCheck :
-            # On vérifie la ligne horizontale
+        elif cells_table[0][1] == symbolToCheck : # Check the horizontal line
              if cells_table[0][2] == symbolToCheck :
                 return True
              
     elif cells_table[2][2] == symbolToCheck :
-        #Si la case du coin bas droite est prise, 2 possibilités
-        if cells_table[1][2] == symbolToCheck :
-            # On vérifie la ligne verticale
-            if cells_table[0][2] == symbolToCheck :
+        #if the cell at the bottom right is filled, we check 2 possibilities
+        if cells_table[1][2] == symbolToCheck : # Check the vertical line
+            if cells_table[0][2] == symbolToCheck : 
                 return True
-        elif cells_table[2][1] == symbolToCheck :
-            # On vérifie la ligne horizontale
+        elif cells_table[2][1] == symbolToCheck :  # Check the horizontal line
              if cells_table[2][0] == symbolToCheck :
                 return True
     else :
